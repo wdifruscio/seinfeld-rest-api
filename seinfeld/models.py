@@ -9,8 +9,17 @@ from django.db import models
 from django.db.models import Count, Max
 from django.db.models.functions.text import Length
 
+from seinfeld.managers import UtteranceManager
 
-class Episode(models.Model):
+
+class IdModel(models.Model):
+    id = models.IntegerField(primary_key=True)
+
+    class Meta:
+        abstract = True
+
+
+class Episode(IdModel):
     season_number = models.IntegerField()
     episode_number = models.IntegerField()
     title = models.TextField(blank=True, null=True)
@@ -23,7 +32,7 @@ class Episode(models.Model):
         db_table = 'episode'
 
 
-class Sentence(models.Model):
+class Sentence(IdModel):
     utterance = models.ForeignKey('Utterance', models.DO_NOTHING)
     sentence_number = models.IntegerField()
     text = models.TextField()
@@ -33,27 +42,21 @@ class Sentence(models.Model):
         db_table = 'sentence'
 
 
-class Utterance(models.Model):
+class Utterance(IdModel):
     episode = models.ForeignKey(Episode, models.DO_NOTHING)
     utterance_number = models.IntegerField()
     speaker = models.TextField()
+
+    manager = UtteranceManager()
 
     class Meta:
         managed = False
         db_table = 'utterance'
 
-    # sentence set works
-    def get_sentences(self):
-        return Sentence.objects.filter(utterance=self.utterance_number)
-
-    def get_one_liner_by_length(self, length=150):
-        return Utterance.objects.annotate(
-            sentence_count=Count('sentence'),
-            max_sentence_length=Max(Length('sentence__text'))
-        ).filter(sentence_count=1, max_sentence_length__gt=length)
 
 
-class Word(models.Model):
+
+class Word(IdModel):
     sentence = models.ForeignKey(Sentence, models.DO_NOTHING)
     word_number = models.IntegerField()
     text = models.TextField()
