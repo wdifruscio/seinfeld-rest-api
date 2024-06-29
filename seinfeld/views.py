@@ -1,27 +1,48 @@
-from random import randint
-
-import django.core.paginator
-from django.utils.decorators import method_decorator
-from django_ratelimit.decorators import ratelimit
-from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 
-from seinfeld.models import Utterance
-from seinfeld.serializers import QuoteSerializer
+from seinfeld.filters import SentenceFilter
+from seinfeld.models import Utterance, Sentence
+from seinfeld.serializers import SentenceSerializer
+from seinfeld.util import get_random_from_queryset
 
 
-class QuoteViewSet(GenericViewSet):
-    model = Utterance
-    queryset = Utterance.manager.all()
-    # pagination_class = django.core.paginator.Paginator
+class QuoteViewSet(ReadOnlyModelViewSet):
+    model = Sentence
+    queryset = Sentence.objects.all()
+    serializer_class = SentenceSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = SentenceFilter
+    pagination_class = PageNumberPagination
 
-    @action(detail=False, methods=['GET'])
-    @method_decorator(ratelimit(key='ip', rate='10/m', method='GET'))
-    def random(self, request, *args, **kwargs):
-        queryset = Utterance.manager.get_one_liner_by_length()
-        random_index = randint(0, queryset.count() - 1)
-        random_utterance = queryset[random_index]
-        serializer = QuoteSerializer(random_utterance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    @action(detail=False, methods=["GET"])
+    def random(self, request):
+        return Response(
+            self.get_serializer(get_random_from_queryset(self.get_queryset())).data,
+        )
+
+class ConversationViewSet(GenericViewSet):
+    model = Sentence
+    queryset = Sentence.objects.all()
+    lookup_field = 'utterance_id'
+    serializer_class = SentenceSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = SentenceFilter
+    pagination_class = PageNumberPagination
+
+    def list(self, request, *args, **kwargs):
+        #need aggregation query
+        sentences = Sentence.objects.aggregate()
+
+    def retrieve(self, request, *args, **kwargs):
+        sentences = Sentence.objects.filter(utterance_id=kwargs['utterance_id'])
+        return Response(
+            self.get_serializer(sentences, many=True).data
+        )
+
+
+
+

@@ -3,7 +3,7 @@ from django.db.models.functions import Length
 
 
 class UtteranceManager(Manager):
-    def get_one_liner_by_length(self, length=100):
+    def get_first_sentence_by_length(self, length=100):
         return self.annotate(
             sentence_count=Count('sentence'),
             max_sentence_length=Max(Length('sentence__text'))
