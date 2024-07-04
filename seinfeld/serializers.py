@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from seinfeld.models import Utterance, Sentence
 
-class UtteranceSerializer(serializers.Serializer):
+class UtteranceDetailSerializer(serializers.Serializer):
     speaker = serializers.CharField()
     season_number = serializers.SerializerMethodField()
     episode_number = serializers.SerializerMethodField()
@@ -22,10 +22,19 @@ class UtteranceSerializer(serializers.Serializer):
     def get_director(self,obj):
         return obj.episode.director
 
+class UtteranceSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    text = serializers.SerializerMethodField()
+    info = serializers.SerializerMethodField()
+
+    def get_text(self, obj):
+        return " ".join(obj.sentence_set.all().values_list('text', flat=True))
+    def get_info(self, obj):
+        return UtteranceDetailSerializer(obj).data
 
 class SentenceSerializer(serializers.Serializer):
     text = serializers.CharField()
     info = serializers.SerializerMethodField()
 
     def get_info(self, obj):
-        return UtteranceSerializer(obj.utterance).data
+        return UtteranceDetailSerializer(obj.utterance).data

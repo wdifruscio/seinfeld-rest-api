@@ -18,11 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from seinfeld.views import QuoteViewSet, ConversationViewSet
+from seinfeld.views import QuoteViewSet, UtteranceViewSet
 
 router = routers.SimpleRouter()
 router.register(r'quotes', QuoteViewSet, basename='quotes')
-router.register(r'conversations', ConversationViewSet, basename='conversations')
+router.register(r'conversations', UtteranceViewSet, basename='conversations')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
