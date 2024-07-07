@@ -1,22 +1,19 @@
-from django.db.models import Count, Max
-from django.db.models.functions import Length
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from seinfeld.filters import SentenceFilter
 from seinfeld.models import Utterance, Sentence
 from seinfeld.serializers import (
     SentenceSerializer,
-    UtteranceDetailSerializer,
     UtteranceSerializer,
 )
+
 from seinfeld.util import get_random_from_queryset
-from seinfeld_api import settings
 
 
 class Pagination(PageNumberPagination):
@@ -46,6 +43,7 @@ class QuoteViewSet(ReadOnlyModelViewSet):
         return Response(
             self.get_serializer(get_random_from_queryset(self.get_queryset())).data,
         )
+
 
 
 class UtteranceViewSet(ReadOnlyModelViewSet):

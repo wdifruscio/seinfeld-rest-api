@@ -54,3 +54,7 @@ class Word(IdModel):
     class Meta:
         managed = False
         db_table = "word"
+
+class Search(IdModel):
+    metadata = models.JSONField()
+    search_term = models.CharField(max_length=200)
