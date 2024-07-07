@@ -7,61 +7,60 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Episode',
+            name="Episode",
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('season_number', models.IntegerField()),
-                ('episode_number', models.IntegerField()),
-                ('title', models.TextField(blank=True, null=True)),
-                ('the_date', models.TextField(blank=True, null=True)),
-                ('writer', models.TextField(blank=True, null=True)),
-                ('director', models.TextField(blank=True, null=True)),
+                ("id", models.IntegerField(primary_key=True, serialize=False)),
+                ("season_number", models.IntegerField()),
+                ("episode_number", models.IntegerField()),
+                ("title", models.TextField(blank=True, null=True)),
+                ("the_date", models.TextField(blank=True, null=True)),
+                ("writer", models.TextField(blank=True, null=True)),
+                ("director", models.TextField(blank=True, null=True)),
             ],
             options={
-                'db_table': 'episode',
-                'managed': False,
+                "db_table": "episode",
+                "managed": False,
             },
         ),
         migrations.CreateModel(
-            name='Sentence',
+            name="Sentence",
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('sentence_number', models.IntegerField()),
-                ('text', models.TextField()),
+                ("id", models.IntegerField(primary_key=True, serialize=False)),
+                ("sentence_number", models.IntegerField()),
+                ("text", models.TextField()),
             ],
             options={
-                'db_table': 'sentence',
-                'managed': False,
+                "db_table": "sentence",
+                "managed": False,
             },
         ),
         migrations.CreateModel(
-            name='Utterance',
+            name="Utterance",
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('utterance_number', models.IntegerField()),
-                ('speaker', models.TextField()),
+                ("id", models.IntegerField(primary_key=True, serialize=False)),
+                ("utterance_number", models.IntegerField()),
+                ("speaker", models.TextField()),
             ],
             options={
-                'db_table': 'utterance',
-                'managed': False,
+                "db_table": "utterance",
+                "managed": False,
             },
         ),
         migrations.CreateModel(
-            name='Word',
+            name="Word",
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('word_number', models.IntegerField()),
-                ('text', models.TextField()),
-                ('part_of_speech', models.TextField(blank=True, null=True)),
+                ("id", models.IntegerField(primary_key=True, serialize=False)),
+                ("word_number", models.IntegerField()),
+                ("text", models.TextField()),
+                ("part_of_speech", models.TextField(blank=True, null=True)),
             ],
             options={
-                'db_table': 'word',
-                'managed': False,
+                "db_table": "word",
+                "managed": False,
             },
         ),
     ]

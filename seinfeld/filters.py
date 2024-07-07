@@ -15,9 +15,9 @@ class SentenceFilter(FilterSet):
     length = filters.CharFilter(method="filter_length")
 
     def filter_length(self, queryset, name, value):
-        return queryset.annotate(
-            max_length=Max(Length('text'))
-        ).filter(max_length__gt=value)
+        return queryset.annotate(max_length=Max(Length("text"))).filter(
+            max_length__gt=value
+        )
 
     def filter_speaker(self, queryset, name, value):
         return queryset.filter(utterance__speaker=upper(value))

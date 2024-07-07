@@ -10,13 +10,20 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 
 from seinfeld.filters import SentenceFilter
 from seinfeld.models import Utterance, Sentence
-from seinfeld.serializers import SentenceSerializer, UtteranceDetailSerializer, UtteranceSerializer
+from seinfeld.serializers import (
+    SentenceSerializer,
+    UtteranceDetailSerializer,
+    UtteranceSerializer,
+)
 from seinfeld.util import get_random_from_queryset
 from seinfeld_api import settings
+
+
 class Pagination(PageNumberPagination):
     page_size = 10
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
     max_page_size = 100
+
 
 class QuoteViewSet(ReadOnlyModelViewSet):
     model = Sentence
@@ -56,7 +63,3 @@ class UtteranceViewSet(ReadOnlyModelViewSet):
     @method_decorator(cache_page(None))
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
-
-
-
-
