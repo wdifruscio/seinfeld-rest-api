@@ -59,12 +59,10 @@ class UtteranceViewSet(ReadOnlyModelViewSet):
 
     @method_decorator(ratelimit(key='ip', rate='30/h', method='GET', block=True))
     @method_decorator(cache_page(None))
-    @ratelimit(key='ip', rate='50/hr')
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
     @method_decorator(ratelimit(key='ip', rate='30/h', method='GET', block=True))
     @method_decorator(cache_page(None))
-    @ratelimit(key='ip', rate='50/hr')
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)

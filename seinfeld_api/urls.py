@@ -23,7 +23,7 @@ from seinfeld.views import QuoteViewSet, UtteranceViewSet
 
 router = routers.SimpleRouter()
 router.register(r"quotes", QuoteViewSet, basename="quotes")
-router.register(r"conversations", UtteranceViewSet, basename="conversations")
+router.register(r"utterances", UtteranceViewSet, basename="utterances")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

@@ -43,6 +43,7 @@ class UtteranceSerializer(serializers.Serializer):
 
 
 class SentenceSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     text = serializers.CharField()
     info = serializers.SerializerMethodField()
 
