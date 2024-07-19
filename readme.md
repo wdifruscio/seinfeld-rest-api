@@ -154,8 +154,7 @@ GET /utterances/1/
 {
     "id": 1,
     "character": "Jerry",
-    "text": "I don't want to be a pirate!",
-    ...
+    "text": "I don't want to be a pirate!"
 }
 ```
 
@@ -172,63 +171,8 @@ Both `QuoteViewSet` and `UtteranceViewSet` support filtering using `SentenceFilt
 - `length`: Filter by the length of the quote.
 - `search`: Filter by a search term in the quote text.
 
-### Filtering Examples
-
 **Filter by Speaker:**
 
 ```http
 GET /quotes/?speaker=Jerry 
 ```
-
-**Filter by Episode ID:**
-
-```http
-GET /quotes/?episode_id=5 
-```
-
-**Filter by Season:**
-
-```http
-GET /quotes/?season=2 
-```
-
-**Filter by Writer:**
-
-```http
-GET /quotes/?writer=Larry%20David 
-```
-
-**Filter by Director:**
-
-```http
-GET /quotes/?director=Tom%20Cherones 
-
-```
-
-**Filter by Title:**
-
-```http
-GET /quotes/?title=The%20Soup%20Nazi 
-```
-
-**Filter by Length:**
-
-```http
-GET /quotes/?length=50 
-```
-
-**Filter by Search Term:**
-
-```http
-GET /quotes/?search=pretzels 
-```
-
-## Pagination
-
-Both viewsets support pagination with the following query parameters:
-- `page_size`: Number of items per page (default is 10, maximum is 100).
-
-## Rate Limiting
-
-- **Quotes**: 30 requests per hour per IP address.
-- **Utterances**: 30 requests per hour per IP address.
