@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from seinfeld.views import QuoteViewSet, UtteranceViewSet
+from seinfeld.views import QuoteViewSet, UtteranceViewSet, ConversationView
 
 router = routers.SimpleRouter()
 router.register(r"quotes", QuoteViewSet, basename="quotes")
@@ -28,4 +28,5 @@ router.register(r"utterances", UtteranceViewSet, basename="utterances")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
+    path("api/conversations", ConversationView.as_view()),
 ]
